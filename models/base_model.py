@@ -2,6 +2,7 @@
 
 import uuid
 from datetime import datetime
+import models
 
 
 class BaseModel:
@@ -21,6 +22,8 @@ class BaseModel:
             self.created_at = datetime.utcnow()
             self.updated_at = datetime.utcnow()
 
+        models.storage.new(self)
+
     def __str__(self):
         class_name = self.__class__.__name__
         return "[{}] ({}) {}".format(
@@ -28,6 +31,7 @@ class BaseModel:
 
     def save(self):
         self.updated_at = datetime.utcnow()
+        models.storage.save()
 
     def to_dict(self):
         inst_data = self.__dict__.copy()
