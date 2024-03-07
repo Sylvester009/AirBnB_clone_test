@@ -9,11 +9,11 @@ class HBNBCommand(cmd.Cmd):
     return True
 
   def do_EOF(self, arg):
-    print("")
+    print()
     return True
 
   def emptyline(self):
     pass
 
-if __name__ == "main":
+if __name__ == "__main__":
   HBNBCommand().cmdloop()
