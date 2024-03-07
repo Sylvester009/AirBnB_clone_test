@@ -8,9 +8,6 @@ import models
 class BaseModel:
     def __init__(self, *args, **kwargs):
         time_format = "%Y-%m-%dT%H:%M:%S.%f"
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.utcnow()
-        self.updated_at = datetime.utcnow()
 
         if kwargs:
             for key, value in kwargs.items():
@@ -20,8 +17,10 @@ class BaseModel:
                     setattr(self, key, datetime.strptime(value, time_format))
                 else:
                     setattr(self, key, value)
-
-        models.storage.new(self)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.utcnow()
+            self.updated_at = datetime.utcnow()
 
     def __str__(self):
         class_name = self.__class__.__name__
@@ -30,7 +29,6 @@ class BaseModel:
 
     def save(self):
         self.updated_at = datetime.utcnow()
-        models.storage.save()
 
     def to_dict(self):
         inst_data = self.__dict__.copy()
