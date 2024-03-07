@@ -25,6 +25,7 @@ class BaseModel:
         inst_data["updated_at"] = self.updated_at.isoformat()
         return inst_data
 
+
 if __name__ == "__main__":
     my_model = BaseModel()
     my_model.name = "My First Model"
