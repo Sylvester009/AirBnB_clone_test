@@ -6,22 +6,22 @@ from models.base_model import BaseModel
 
 
 class FileStorage:
-  __file_path = "file.json"
-  __objects = {}
+    __file_path = "file.json"
+    __objects = {}
 
-  def all(self):
-    return FileStorage.__objects
+    def all(self):
+      return FileStorage.__objects
 
-  def new(self, obj):
-    obj_class_name = obj.__class__.__name__
-    obj_key = "{}.{}".format(obj_class_name, obj.id)
+    def new(self, obj):
+      obj_class_name = obj.__class__.__name__
+      obj_key = "{}.{}".format(obj_class_name, obj.id)
 
-    FileStorage.__objects[obj_key] = obj
+      FileStorage.__objects[obj_key] = obj
 
-  def save(self):
-    all_obj = FileStorage.__objects
+    def save(self):
+      all_obj = FileStorage.__objects
 
-    obj_dict = {}
+      obj_dict = {}
 
     for obj in all_obj.keys():
       obj_dict[obj] = all_obj[obj].to_dict()
