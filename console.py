@@ -12,7 +12,7 @@ class HBNBCommand(cmd.Cmd):
     print("")
     return True
 
-  def help_line(self):
+  def emptyline(self):
     pass
 
 if __name__ == "main":
