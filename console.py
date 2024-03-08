@@ -4,6 +4,7 @@ import re
 from models import storage
 from datetime import datetime
 from models.base_model import BaseModel
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
