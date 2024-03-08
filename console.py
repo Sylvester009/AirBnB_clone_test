@@ -36,7 +36,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         try:
-            if args[0] not in storage.all():
+            if args[0] not in storage.all().keys():
                 print("** class doesn't exist **")
                 return
             elif len(args) == 1:
@@ -56,7 +56,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         args = arg.split()
         try:
-            if args and args[0] not in storage.all():
+            if args and args[0] not in storage.all().keys():
                 print("** class doesn't exist **")
                 return
 
