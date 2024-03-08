@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
         if not args:
             print([str(obj) for obj in storage.all().values()])
-        elif args[0] not in storage.classes():
+        elif args[0] not in storage.all():
             print("** class doesn't exist **")
         else:
             class_name = args[0]
