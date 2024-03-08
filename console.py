@@ -36,7 +36,8 @@ class HBNBCommand(cmd.Cmd):
             return
 
         try:
-            if args[0] not in storage.all().keys():
+            class_name = args[0]
+            if class_name not in storage.all():
                 print("** class doesn't exist **")
                 return
             elif len(args) == 1:
@@ -44,7 +45,7 @@ class HBNBCommand(cmd.Cmd):
                 return
 
             instances = storage.all()
-            inst_key = args[0] + "." + args[1]
+            inst_key = "{}.{}".format(class_name, args[1])
             if inst_key not in instances:
                 print("** no instance found **")
                 return
@@ -56,7 +57,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         args = arg.split()
         try:
-            if args and args[0] not in storage.all().keys():
+            if args and args[0] not in storage.all():
                 print("** class doesn't exist **")
                 return
 
@@ -64,7 +65,8 @@ class HBNBCommand(cmd.Cmd):
             if not args:
                 print([str(obj) for obj in instances.values()])
             else:
-                print([str(obj) for obj in instances.values() if obj.__class__.__name__ == args[0]])
+                class_name = args[0]
+                print([str(obj) for obj_key, obj in instances.items() if obj_key.startswith(class_name)])
         except Exception as e:
             print("**", e.__class__.__name__, str(e), "**")
 
