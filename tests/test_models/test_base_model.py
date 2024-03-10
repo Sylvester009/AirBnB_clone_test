@@ -2,7 +2,7 @@
 """
 Module for BaseModel unittest
 """
-
+import os
 import unittest
 from datetime import datetime
 from models.base_model import BaseModel
@@ -24,8 +24,8 @@ class TestBaseModel(unittest.TestCase):
     def test_save(self):
         model = BaseModel()
         old_updated_at = model.updated_at
-        model.save()
-        self.assertNotEqual(old_updated_at, model.updated_at)
+        current_updated_at = model.save()
+        self.assertNotEqual(old_updated_at, current.updated_at)
 
     def test_to_dict(self):
         model = BaseModel()
