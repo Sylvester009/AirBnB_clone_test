@@ -119,7 +119,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** no instance found **")
 
-    def do_all(self, arg):
+    """def do_all(self, arg):
         """
         Prints all instances of a class.
         """
@@ -134,7 +134,26 @@ class HBNBCommand(cmd.Cmd):
         objects = storage.all()
         instances = [str(obj) for key, obj in objects.items()
                      if key.startswith(arg + '.')]
+        print(instances)"""
+
+    def do_all(self, arg):
+    """
+    Prints all instances of a class.
+    """
+    if not arg:
+        print("** class name missing **")
+        return
+
+    class_name, _, method = arg.partition('.')
+    if method != 'all' or class_name not in self.valid_classes:
+        print("** command not found **")
+        return
+
+    try:
+        instances = eval(f"{class_name}.all()")
         print(instances)
+    except AttributeError:
+        print(f"** {class_name}.all() method not found **")
 
     def do_update(self, arg):
         """
