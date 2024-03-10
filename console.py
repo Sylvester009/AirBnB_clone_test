@@ -120,9 +120,9 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     """def do_all(self, arg):
-        """
+        
         Prints all instances of a class.
-        """
+       
         if not arg:
             print([str(obj) for obj in storage.all().values()])
             return
