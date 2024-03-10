@@ -122,21 +122,12 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """
         Prints all instances of a class.
-        
+        """
         if not arg:
             print([str(obj) for obj in storage.all().values()])
             return
 
         if arg not in self.valid_classes:
-            print("** class doesn't exist **")
-            return
-        """
-        if not arg:
-            print("** class name missing **")
-            return
-
-        class_name, _, method = arg.partition('.')
-        if method != 'all' or class_name not in self.valid_classes:
             print("** class doesn't exist **")
             return
 
