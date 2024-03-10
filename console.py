@@ -3,9 +3,9 @@
 Module for console
 """
 import cmd
-import re
 from models import storage
 from models.base_model import BaseModel
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -13,7 +13,7 @@ class HBNBCommand(cmd.Cmd):
     HBNBCommand console class
     """
     prompt = "(hbnb) "
-    valid_classes = ["BaseModel"]
+    valid_classes = ["BaseModel", "User"]
 
     def emptyline(self):
         """
@@ -48,8 +48,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """
-        Create a new instance of BaseModel and save it to the JSON file.
-        Usage: create <class_name>
+        Create a new instance of BaseModel or User and save it to the JSON file.
         """
         if not arg:
             print("** class name missing **")
@@ -59,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        new_instance = BaseModel()
+        new_instance = eval(f"{arg}()")
         new_instance.save()
         print(new_instance.id)
 
@@ -116,7 +115,6 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """
         Prints all instances of a class.
-        Usage: all <class_name> or all
         """
         if not arg:
             print([str(obj) for obj in storage.all().values()])
