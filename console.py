@@ -135,10 +135,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-            class_name, _, method = arg.partition('.')
-            if method != 'all' or class_name not in self.valid_classes:
-                print("** class doesn't exist **")
-                return
+        class_name, _, method = arg.partition('.')
+        if method != 'all' or class_name not in self.valid_classes:
+            print("** class doesn't exist **")
+            return
 
         objects = storage.all()
         instances = [str(obj) for key, obj in objects.items()
