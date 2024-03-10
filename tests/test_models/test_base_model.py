@@ -25,7 +25,7 @@ class TestBaseModel(unittest.TestCase):
         model = BaseModel()
         old_updated_at = model.updated_at
         current_updated_at = model.save()
-        self.assertNotEqual(old_updated_at, current.updated_at)
+        self.assertNotEqual(old_updated_at, current_updated_at)
 
     def test_to_dict(self):
         model = BaseModel()
