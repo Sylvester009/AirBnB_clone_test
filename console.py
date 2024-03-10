@@ -3,7 +3,9 @@
 Module for console
 """
 import cmd
+import re
 from models import storage
+from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
@@ -11,6 +13,7 @@ class HBNBCommand(cmd.Cmd):
     HBNBCommand console class
     """
     prompt = "(hbnb) "
+    valid_classes = ["BaseModel"]
 
     def emptyline(self):
         """
@@ -43,11 +46,133 @@ class HBNBCommand(cmd.Cmd):
         """
         print("EOF (Ctrl+D) signal to exit the program.")
 
-    def do_help(self, arg):
+    def do_create(self, arg):
         """
-        Get help for commands
+        Create a new instance of BaseModel and save it to the JSON file.
+        Usage: create <class_name>
         """
-        cmd.Cmd.do_help(self, arg)
+        if not arg:
+            print("** class name missing **")
+            return
+
+        if arg not in self.valid_classes:
+            print("** class doesn't exist **")
+            return
+
+        new_instance = BaseModel()
+        new_instance.save()
+        print(new_instance.id)
+
+    def do_show(self, arg):
+        """
+        Print the string representation of an instance based on the class name and id.
+        Usage: show <class_name> <id>
+        """
+        args = arg.split()
+        if not args:
+            print("** class name missing **")
+            return
+
+        if args[0] not in self.valid_classes:
+            print("** class doesn't exist **")
+            return
+
+        if len(args) < 2:
+            print("** instance id missing **")
+            return
+
+        key = "{}.{}".format(args[0], args[1])
+        objects = storage.all()
+        if key in objects:
+            print(objects[key])
+        else:
+            print("** no instance found **")
+
+    def do_destroy(self, arg):
+        """
+        Delete an instance based on the class name and id (save the change into the JSON file).
+        Usage: destroy <class_name> <id>
+        """
+        args = arg.split()
+        if not args:
+            print("** class name missing **")
+            return
+
+        if args[0] not in self.valid_classes:
+            print("** class doesn't exist **")
+            return
+
+        if len(args) < 2:
+            print("** instance id missing **")
+            return
+
+        key = "{}.{}".format(args[0], args[1])
+        objects = storage.all()
+        if key in objects:
+            del objects[key]
+            storage.save()
+        else:
+            print("** no instance found **")
+
+    def do_all(self, arg):
+        """
+        Prints all instances of a class.
+        Usage: all <class_name> or all
+        """
+        if not arg:
+            print([str(obj) for obj in storage.all().values()])
+            return
+
+        if arg not in self.valid_classes:
+            print("** class doesn't exist **")
+            return
+
+        objects = storage.all()
+        instances = [str(obj) for key, obj in objects.items() if key.startswith(arg + '.')]
+        print(instances)
+
+    def do_update(self, arg):
+        """
+        Updates an instance based on the class name and id by adding or updating attribute
+        (save the change into the JSON file).
+        """
+        args = arg.split()
+        if not args:
+            print("** class name missing **")
+            return
+
+        if args[0] not in self.valid_classes:
+            print("** class doesn't exist **")
+            return
+
+        if len(args) < 2:
+            print("** instance id missing **")
+            return
+
+        key = "{}.{}".format(args[0], args[1])
+        objects = storage.all()
+        if key not in objects:
+            print("** no instance found **")
+            return
+
+        if len(args) < 3:
+            print("** attribute name missing **")
+            return
+
+        if len(args) < 4:
+            print("** value missing **")
+            return
+
+        obj = objects[key]
+        attribute_name = args[2]
+        attribute_value = args[3]
+        try:
+            attribute_value = eval(attribute_value)
+        except (NameError, SyntaxError):
+            pass
+
+        setattr(obj, attribute_name, attribute_value)
+        obj.save()
 
 
 if __name__ == '__main__':
