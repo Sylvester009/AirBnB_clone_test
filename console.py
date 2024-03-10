@@ -119,7 +119,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** no instance found **")
 
-    def do_all(self, arg):
+def do_all(self, arg):
     """
     Prints all instances of a class.
     """
