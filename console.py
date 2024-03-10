@@ -119,24 +119,22 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** no instance found **")
 
-def do_all(self, arg):
-    """
-    Prints all instances of a class.
-    """
-    if not arg:
-        print("** class name missing **")
-        return
+    def do_all(self, arg):
+        """
+        Prints all instances of a class.
+        """
+        if not arg:
+            print([str(obj) for obj in storage.all().values()])
+            return
 
-    class_name, _, method = arg.partition('.')
-    if method != 'all' or class_name not in self.valid_classes:
-        print("** command not found **")
-        return
+        if arg not in self.valid_classes:
+            print("** class doesn't exist **")
+            return
 
-    try:
-        instances = eval(f"{class_name}.all()")
+        objects = storage.all()
+        instances = [str(obj) for key, obj in objects.items()
+                     if key.startswith(arg + '.')]
         print(instances)
-    except AttributeError:
-        print(f"** {class_name}.all() method not found **")
 
     def do_update(self, arg):
         """
